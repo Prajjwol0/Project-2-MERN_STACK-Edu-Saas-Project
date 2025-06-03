@@ -79,6 +79,11 @@ class AuthController {
       return;
     } 
 
+    const [data]=await User.findAll({
+      where:{
+        email
+      }
+    })
     // Insert into user table
     await User.create({
       username:username,
