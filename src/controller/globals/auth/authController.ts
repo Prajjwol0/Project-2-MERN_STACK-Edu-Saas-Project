@@ -14,7 +14,7 @@ reset password / otp
 
 import { Request, Response } from "express";
 import User from "../../../database/models/use.model";
-
+import bcrypt from "bcrypt";
 // ==============================
 // Functional approach (COMMENTED OUT)
 // ==============================
@@ -60,7 +60,16 @@ const registerUser = async (req: Request, res: Response) => {
 
 class AuthController {
   static async registerUser(req: Request, res: Response) {
+   
+   
+    if(req.body==undefined){
+      res.status(400).json({
+        message:"No data was send!!!!!"
+      })
+    }
+
     const { username, password, email } = req.body;
+
 
     // Check
     if (!username || !password || !email) {
@@ -68,16 +77,16 @@ class AuthController {
         message: "Please provide username, password, email",
       });
       return;
-    }
+    } 
 
     // Insert into user table
     await User.create({
-      username,
-      password,
-      email,
+      username:username,
+      password:bcrypt.hashSync(password,8),  //8 chahi salt value ho ! salt ko value jati thuko hunxa teti nai strength
+      email:email,
     });
 
-    res.status(200).json({
+    res.status(201).json({
       message: "Successfully registered user",
     });
   }
