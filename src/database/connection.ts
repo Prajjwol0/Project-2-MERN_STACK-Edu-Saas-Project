@@ -9,7 +9,7 @@ const sequelize = new Sequelize({
     port : Number(process.env.DB_PORT), 
     models : [__dirname + '/models'] // current location + '/models'
 })
-
+    
 
 sequelize.authenticate()
 .then(()=>{
@@ -20,7 +20,7 @@ sequelize.authenticate()
 })
 
 // migrate garnu parxa/ push garnu parxa 
-sequelize.sync({force:false})
+sequelize.sync({force:true})
 .then(()=>{
     console.log("migrated successfully new changes")
 })

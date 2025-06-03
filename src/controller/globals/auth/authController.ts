@@ -1,7 +1,3 @@
-
-
-
-
 /*
 
 register/sign up
@@ -16,75 +12,75 @@ reset password / otp
 
 */
 
+import { Request, Response } from "express";
+import User from "../../../database/models/use.model";
 
-import {Request,Response} from "express"
-import User from "../../../database/models/use.model"
+// ==============================
+// Functional approach (COMMENTED OUT)
+// ==============================
 
+/*
 
+const registerUser = async (req: Request, res: Response) => {
+  // Incoming data accept garne
 
+  // Functional approach
+  /**
+      const username=req.body.username
+      const password=req.body.password
+      const email=req.body.email
+   */
+  /*
+  const { username, password, email } = req.body;
 
-const registerUser=async (req:Request,res:Response)=>{
-
-  
-
-// Incoming data accept garne
-
-// Functional approach
-/**
- 
-    const username=req.body.username
-   const password=req.body.password
- const email=req.body.email
- */
-  const {username, password, email}=req.body
-
-//   Check 
-if(!username||!password||!email){
+  // Check
+  if (!username || !password || !email) {
     res.status(400).json({
-        message:"Please provide username, password, email"
-    })
-   return;
-}
- 
-     //   Insert into user table 
-    await User.create({
-        username,
-        password,
-        email
-     })
-     res.status(200).json({
-        message:"Successfully registered user"
-     })
-    
+      message: "Please provide username, password, email",
+    });
+    return;
+  }
 
-}
+  // Insert into user table
+  await User.create({
+    username,
+    password,
+    email,
+  });
+  res.status(200).json({
+    message: "Successfully registered user",
+  });
+};
 
+*/
 
-// Class based approach
+// ==============================
+// Class based approach (ACTIVE)
+// ==============================
 
-class AuthController{
-  static async  registerUser(req:Request,res:Response){
-const {username, password, email}=req.body
+class AuthController {
+  static async registerUser(req: Request, res: Response) {
+    const { username, password, email } = req.body;
 
-//   Check 
-if(!username||!password||!email){
-    res.status(400).json({
-        message:"Please provide username, password, email"
-    })
-   return;
-}
- 
-     //   Insert into user table 
-    await User.create({
-        username,
-        password,
-        email
-     })
-     res.status(200).json({
-        message:"Successfully registered user"
-     })
-    
+    // Check
+    if (!username || !password || !email) {
+      res.status(400).json({
+        message: "Please provide username, password, email",
+      });
+      return;
     }
+
+    // Insert into user table
+    await User.create({
+      username,
+      password,
+      email,
+    });
+
+    res.status(200).json({
+      message: "Successfully registered user",
+    });
+  }
 }
 
-export default AuthController
+export default AuthController;
