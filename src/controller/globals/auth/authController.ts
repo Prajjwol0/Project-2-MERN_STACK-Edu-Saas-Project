@@ -64,6 +64,9 @@ class AuthController {
       return;
     } 
 
+    //"Find all users whose email equals the given email."
+//findAll() returns an array of users.
+// data = the first user with the matching email if found.
     const [data]=await User.findAll({
       where:{
         email
