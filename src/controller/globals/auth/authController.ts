@@ -1,3 +1,7 @@
+import { Request, Response } from "express";
+import User from "../../../database/models/use.model";
+import bcrypt from "bcrypt";
+
 /*
 
 register/sign up
@@ -10,11 +14,23 @@ logout
 forgot password
 reset password / otp
 
+
+
+login flow: 
+email/user,password, (basic)
+
+email,password --> data accept --> validation
+// First check email exist or not (verify)
+
+
+email/username, password
+
+google login,fb,github (oauth)
+email login (SSO)
+
 */
 
-import { Request, Response } from "express";
-import User from "../../../database/models/use.model";
-import bcrypt from "bcrypt";
+
 
 
 
@@ -22,7 +38,12 @@ import bcrypt from "bcrypt";
 // Class based approach (ACTIVE)
 // ==============================
 
+
+
+
+
 class AuthController {
+
   static async registerUser(req: Request, res: Response) {
    
    
@@ -46,12 +67,16 @@ class AuthController {
     const [data]=await User.findAll({
       where:{
         email
-      }
-    })
+      },
+    });
+
+    // const hashedPassword=bcrypt.hashSync(password,8); //8 chahi salt value ho ! salt ko value jati thuko hunxa teti nai strength
+    
     // Insert into user table
     await User.create({
       username:username,
-      password:bcrypt.hashSync(password,8),  //8 chahi salt value ho ! salt ko value jati thuko hunxa teti nai strength
+      password:bcrypt.hashSync(password,8),
+    
       email:email,
     });
 
@@ -59,6 +84,48 @@ class AuthController {
       message: "Successfully registered user",
     });
   }
+
+
+ async loginUser(req:Request,res:Response){
+    const {email,password}=req.body
+    if(!email || !password){
+      res.status(400).json({
+        message:"Please provide email,password"
+      })
+      return
+    }
+    // Check if email exist or not in out users table
+    const data =await User.findAll({
+      where : {
+        email
 }
+  })
+
+  if (data.length==0){
+    res.status(404).json({
+      message:"Not registered!!"
+    }) 
+  }
+  else {
+    // Check password, password123 --> hashed pw-->efdifjigri
+    // compare(plain password user bata aako pw, hashed pw register huda table ma baseko)
+    const isPasswordMatch=bcrypt.compareSync(password,data[0].password)
+  if(isPasswordMatch){
+    // login vayo, token generation
+  }else{
+    res.status(404).json({
+      message:"Invalid email or password!!"
+    })
+  }
+  
+  }
+  }
+}
+
+
+
+
+
+
 
 export default AuthController;
