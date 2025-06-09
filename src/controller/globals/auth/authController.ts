@@ -89,7 +89,7 @@ class AuthController {
   }
 
 
- async loginUser(req:Request,res:Response){
+ static async loginUser(req:Request,res:Response){
     const {email,password}=req.body
     if(!email || !password){
       res.status(400).json({
@@ -115,10 +115,13 @@ class AuthController {
     const isPasswordMatch=bcrypt.compareSync(password,data[0].password)
   if(isPasswordMatch){
     // login vayo, token generation
-const token=jwt.sign({id:"data[0].id"},"thisissecrethai") //jwt.sign({name:"prjjwol"},"thisIsSecret") 
-expiresIn:"90d"
+const token=jwt.sign({id:data[0].id},"thisissecret",{
+  expiresIn:"30d"
+}) //jwt.sign({name:"prjjwol"},"thisIsSecret") 
+
 res.json({
-  token:token
+  token:token,
+  message:"Logged in Success"
 })
 
   }else{
