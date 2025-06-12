@@ -1,5 +1,6 @@
 import {Sequelize} from 'sequelize-typescript'
-
+import dotenv from 'dotenv' 
+dotenv.config()
 const sequelize = new Sequelize({
     database : process.env.DB_NAME , // database ko name 
     username : process.env.DB_USERNAME, // database ko username, by default root
