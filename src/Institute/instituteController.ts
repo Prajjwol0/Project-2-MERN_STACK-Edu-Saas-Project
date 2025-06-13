@@ -48,7 +48,13 @@ await sequelize.query(`INSERT INTO instute_${instituteNumber}
     }
 
 
-    // const createTeacherTable=(req:Request,res:Response)=>{
-    //     sequelize.query(`CREATE TABLE teacher_${instituteNumber}`)
-    // }
+    const createTeacherTable=async (req:Request,res:Response)=>{
+    //   await sequelize.query(`CREATE TABLE teacher_${instituteNumber}
+    //     (
+    //         id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
+    //         teacherName VARCHAR(255) NOT NULL, 
+    //         teacherEmail VARCHAR(255) NOT NULL UNIQUE, 
+    //         teacherPhoneNumber VARCHAR(255) NOT NULL UNIQUE
+    //         )`)
+    }
 export default createInstitute
