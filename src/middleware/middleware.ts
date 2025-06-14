@@ -5,10 +5,12 @@ import User from "../database/models/user.model";
 // Extended request interface to hold extra user data
 interface IExtendedRequest extends Request {
   user?: {
-    name?: string;
-    age?: number;
+email:string,
+role:string,
+userName:string,
   };
 }
+
 
 // Interface for decoded JWT result
 interface IResultAayo {
@@ -57,8 +59,9 @@ class Middleware {
         } else {
           // If user found, add extra data to request object
           req.user = {
-            name: "this.name", // you can replace this.name with actual name
-            age: 23
+            userName: "this.userName", 
+            email: "this.email",
+            role:"this.role"
           };
         }
 
