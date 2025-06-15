@@ -11,14 +11,6 @@ userName:string,
   };
 }
 
-
-// Interface for decoded JWT result
-interface IResultAayo {
-  id: string;
-  iat: number;
-  exp: number;
-}
-
 class Middleware {
 
   // Middleware function to check if user is logged in
@@ -56,8 +48,8 @@ class Middleware {
             message: "No user with that id, invalid token"
           });
           return;
-        } else {
-          // If user found, add extra data to request object
+          } else {
+            // If user found, add extra data to request object
           req.user = {
             userName: "this.userName", 
             email: "this.email",
