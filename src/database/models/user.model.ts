@@ -1,3 +1,4 @@
+
 import {Table,Column,Model,DataType, PrimaryKey} from "sequelize-typescript"
 
 @Table({
@@ -15,9 +16,10 @@ class User extends Model{
     declare id : string
     
     @Column({
-        type : DataType.STRING
+        type : DataType.STRING, 
+   
     })
-    declare username : string 
+    declare userName : string 
 
     @Column({
         type : DataType.STRING
@@ -26,8 +28,7 @@ class User extends Model{
 
     @Column({
         type : DataType.STRING,
-    unique:true
-    
+        unique : true
     })
     declare email:string
     @Column({
@@ -35,6 +36,14 @@ class User extends Model{
         defaultValue : 'student', 
     })
     declare role:string
+
+    @Column({
+        type : DataType.STRING
+    })
+    declare currentInstituteNumber : string 
+
+   
+
 }
 
 export default User 
