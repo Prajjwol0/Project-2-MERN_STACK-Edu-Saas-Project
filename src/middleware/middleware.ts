@@ -10,9 +10,9 @@ const isLoggedIn = async (req:IExtendedRequest,res:Response,next:NextFunction)=>
   body : ""
   headers : "", 
   contenttype : "", 
-  name : "manish", 
+  name : "Prajjwol", 
   user : {
-  email : "manish", 
+  email : "Prajjwol", 
   role : "admin", 
 
   }

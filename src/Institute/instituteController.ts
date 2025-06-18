@@ -7,7 +7,7 @@ import asyncErrorHandler from "../services/asyncErrorHandler";
 
 
 
-const createInstitute = asyncErrorHandler ( async (req:IExtendedRequest,res:Response,next:NextFunction)=>{
+const createInstitute =  async (req:IExtendedRequest,res:Response,next:NextFunction)=>{
         // console.log("Triggered")
    
         const {instituteName,instituteEmail,institutePhoneNumber,instituteAddress} = req.body 
@@ -72,9 +72,9 @@ const createInstitute = asyncErrorHandler ( async (req:IExtendedRequest,res:Resp
         next()
       
     }
-)
 
-const createTeacherTable =asyncErrorHandler(  async (req:IExtendedRequest,res:Response,next:NextFunction)=>{
+
+const createTeacherTable =  async (req:IExtendedRequest,res:Response,next:NextFunction)=>{
           
             const instituteNumber = req.instituteNumber
             await sequelize.query(`CREATE TABLE IF NOT EXISTS teacher_${instituteNumber}(
@@ -92,8 +92,8 @@ const createTeacherTable =asyncErrorHandler(  async (req:IExtendedRequest,res:Re
        
    
 }
-)
-const createStudentTable =asyncErrorHandler( async(req:IExtendedRequest,res:Response,next:NextFunction)=>{
+
+const createStudentTable =async(req:IExtendedRequest,res:Response,next:NextFunction)=>{
     const instituteNumber = req.instituteNumber
     await sequelize.query(`CREATE TABLE IF NOT EXISTS student_${instituteNumber}(
         id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
@@ -107,8 +107,8 @@ const createStudentTable =asyncErrorHandler( async(req:IExtendedRequest,res:Resp
         )`)
     next()
 }
-)
-const createCourseTable = asyncErrorHandler ( async(req:IExtendedRequest,res:Response)=>{
+
+const createCourseTable = async(req:IExtendedRequest,res:Response)=>{
     const instituteNumber = req.instituteNumber 
     await sequelize.query(`CREATE TABLE IF NOT EXISTS course_${instituteNumber}(
         id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -125,5 +125,5 @@ const createCourseTable = asyncErrorHandler ( async(req:IExtendedRequest,res:Res
             instituteNumber, 
         })
 }
-)
+
 export  {createInstitute,createTeacherTable,createStudentTable,createCourseTable}
