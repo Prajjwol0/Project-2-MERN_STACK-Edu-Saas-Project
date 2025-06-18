@@ -42,7 +42,6 @@ const isLoggedIn = async (req:IExtendedRequest,res:Response,next:NextFunction)=>
             // verified vayo 
           
             const userData = await User.findByPk(resultaayo.id)
-          attribute
             if(!userData){
                 res.status(403).json({
                     message : "No user with that id, invalid token "
