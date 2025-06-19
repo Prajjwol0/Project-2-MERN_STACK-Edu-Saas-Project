@@ -4,56 +4,68 @@ import { IExtendedRequest } from "../../../middleware/type";
 
 
 
-const createCourse = (req:Request, res:Response)=>{
-    const {coursePrice, courseName, courseDescription, courseLevel,courseDuration}=req.body
-    if(!coursePrice || !courseName || !courseDescription || courseLevel){
-        return res.status(400).json({
-            message:"Please provide every details"
-        })
-    }
-
-    const courseThumbnail = null
-
-    sequelize.query(`INSERT INTO course_${instituteNumber}(coursePrice,courseName,courseDescription,courseDuration,courseLevel,courseThumbnail)VALUES(?,?,?,?,?,?,?)`,{
-        replacements:[coursePrice,courseName,courseDescription,courseDuration,courseLevel,courseThumbnail,courseThumbnail || "kunai_png.png"]
+const createCourse = async (req:IExtendedRequest,res:Response)=>{
+    const instituteNumber = req.user?.currentInstituteNumber
+const {coursePrice, courseName,courseDescription, courseDuration, courseLevel } = req.body 
+if(!coursePrice || !courseName || !courseDescription || !courseDuration || !courseLevel){
+    return res.status(400).json({
+        messsage : "Please provide coursePrice, courseName, courseDescription, courseDuration, courseLevel"
     })
+}
+const courseThumbnail = null
 
-}console.log(returnedData)
-resizeBy.status(200).json({
+const returnedData = await sequelize.query(`INSERT INTO course_${instituteNumber}(coursePrice,courseName,courseDescription,courseDuration,courseLevel,courseThumbnail) VALUES(?,?,?,?,?,?)`,{
+    replacements : [coursePrice, courseName,courseDescription,courseDuration,courseLevel,courseThumbnail || "https://digitalpathshalanepal.com/image/hello.png"]
+})
+
+console.log(returnedData)
+res.status(200).json({
     message : 'course created successfully'
 })
 }
-const deleteCourse = async (req:IExtendedRequest, res:Response)=>{
-    const instituteNumber= req.user?.currentInstituteNumber
-    const courseId = req.params.id
-// First check if course exists or not, if exists ---> delete else not
-    const courseData = await sequelize.query(`SELECT * FROM course_${instituteNumber} Where id=?`,{
-        replacements:[courseId]
-    })
-    sequelize.query(`DELETE FROM course_${instituteNumber} WHERE id=?`,{
-        replacements:[courseId]
 
+const deleteCourse = async(req:IExtendedRequest,res:Response)=>{
+    const instituteNumber = req.user?.currentInstituteNumber 
+    const courseId = req.params.id 
+    // first check if course exists or not , if exists --> delete else not delete 
+    const [courseData] = await sequelize.query(`SELECT * FROM course_${instituteNumber} WHERE id=?`,{
+        replacements : [courseId]
     })
-    if(courseData.length==0){
-        
+
+    if(courseData.length == 0){
+        return res.status(404).json({
+            message : "no course with that id"
+        })
     }
+
+    await sequelize.query(`DELETE FROM course_${instituteNumber} WHERE id = ?`,{
+        replacements : [courseId]
+    })
     res.status(200).json({
-        message:"Deleted!!"
+        message : "course deleted successfully"
     })
 }
 
-const getAllCourse=(req:IExtendedRequest,res:Response)=>{
-    const instituteNumber=req.user?.currentInstituteNumber;
+
+const getAllCourse = async (req:IExtendedRequest,res:Response)=>{
+    const instituteNumber = req.user?.currentInstituteNumber; 
     const courses = await sequelize.query(`SELECT * FROM course_${instituteNumber}`)
     res.status(200).json({
-        message:"Course Fetched",
-        data:courses
+        message : "Course fetched", 
+        data : courses 
     })
 }
 
-const getSingleCourse=async(req:IExtendedRequest,res:Response)=>{
-    const instituteNumber=req,user?.currentInstituteNumber;
-    const courseId=await
+const getSingleCourse = async(req:IExtendedRequest,res:Response)=>{
+    const instituteNumber = req.user?.currentInstituteNumber; 
+    const courseId = req.params.id
+    const course = await sequelize.query(`SELECT * FROM course_${instituteNumber} WHERE id = ?`,{
+        replacements : [courseId]
+    })
+    res.status(200).json({
+        message : "single course fetched", 
+        data : course
+    })
 }
 
-export {createCourse,deleteCourse,getAllCourse,getSingleCourse}
+export {createCourse,deleteCourse,getSingleCourse,getAllCourse}

@@ -5,7 +5,7 @@
 import express, { Router } from "express"
 
 import isLoggedIn from "../../middleware/middleware"
-import { createCourseTable, createInstitute, createStudentTable, createTeacherTable } from "../../Institute/instituteController"
+import { createCourseTable, createInstitute, createStudentTable, createTeacherTable } from "../../controller/institute/instituteController"
 import asyncErrorHandler from "../../services/asyncErrorHandler"
 
 
