@@ -73,7 +73,6 @@ const createInstitute =  async (req:IExtendedRequest,res:Response,next:NextFunct
       
     }
 
-
 const createTeacherTable =  async (req:IExtendedRequest,res:Response,next:NextFunction)=>{
           
             const instituteNumber = req.instituteNumber
