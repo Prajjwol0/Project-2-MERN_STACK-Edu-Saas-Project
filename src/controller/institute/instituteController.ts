@@ -68,7 +68,10 @@ const createInstitute = asyncErrorHandler( async (req:IExtendedRequest,res:Respo
                 }
             })
           }
-         req.instituteNumber = instituteNumber  
+        if(req.user){
+req.user.currentInstituteNumber = instituteNumber  
+        }
+         
         // req.user?.instituteNumber = instituteNumber; 
         next()
    
@@ -81,7 +84,7 @@ const createInstitute = asyncErrorHandler( async (req:IExtendedRequest,res:Respo
 const createTeacherTable = async (req:IExtendedRequest,res:Response,next:NextFunction)=>{
          
             
-              const instituteNumber = req.instituteNumber
+              const instituteNumber = req.user?.currentInstituteNumber
               await sequelize.query(`CREATE TABLE IF NOT EXISTS teacher_${instituteNumber}(
               id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
               teacherName VARCHAR(255) NOT NULL, 
@@ -103,7 +106,7 @@ const createStudentTable = async(req:IExtendedRequest,res:Response,next:NextFunc
     
    
        try {
-        const instituteNumber = req.instituteNumber
+        const instituteNumber = req.user?.currentInstituteNumber
         await sequelize.query(`CREATE TABLE IF NOT EXISTS student_${instituteNumber}(
             id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
             studentName VARCHAR(255) NOT NULL, 
@@ -127,7 +130,7 @@ const createStudentTable = async(req:IExtendedRequest,res:Response,next:NextFunc
 
 const createCourseTable = async(req:IExtendedRequest,res:Response)=>{
 
-    const instituteNumber = req.instituteNumber 
+    const instituteNumber = req.user?.currentInstituteNumber
     await sequelize.query(`CREATE TABLE IF NOT EXISTS course_${instituteNumber}(
         id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
         courseName VARCHAR(255) NOT NULL UNIQUE, 
@@ -146,6 +149,41 @@ const createCourseTable = async(req:IExtendedRequest,res:Response)=>{
         })
 }
 
+const createCategoryTable = async (req: IExtendedRequest, res: Response, next: NextFunction) => {
+  const instituteNumber = req.user?.currentInstituteNumber;
+
+  const categories = [
+    { categoryName: "Design", categoryDescription: "Creative design-related courses" },
+    { categoryName: "Development", categoryDescription: "Web, mobile, and software development" },
+    { categoryName: "Marketing", categoryDescription: "Digital and traditional marketing" },
+    { categoryName: "Finance", categoryDescription: "Accounting, investment, and finance" }
+  ];
+
+  await sequelize.query(`CREATE TABLE IF NOT EXISTS category_${instituteNumber}(
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
+    categoryName VARCHAR(100) NOT NULL, 
+    categoryDescription TEXT,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  )`);
+
+  for (const category of categories) {
+    await sequelize.query(
+      `INSERT INTO category_${instituteNumber}(categoryName, categoryDescription) VALUES(?, ?)`,
+      { replacements: [category.categoryName, category.categoryDescription] }
+    );
+  }
+
+  next(); // Proceed to next middleware
+};
 
 
-export  {createInstitute,createTeacherTable,createStudentTable,createCourseTable}
+export {
+  createInstitute,
+  createTeacherTable,
+  createStudentTable,
+  createCourseTable,
+  createCategoryTable
+}
+
+

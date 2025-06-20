@@ -12,10 +12,11 @@ if(!coursePrice || !courseName || !courseDescription || !courseDuration || !cour
         messsage : "Please provide coursePrice, courseName, courseDescription, courseDuration, courseLevel"
     })
 }
-const courseThumbnail = null
+console.log(File+"File")
+const courseThumbnail = req.file ? req.file.filename : null
 
 const returnedData = await sequelize.query(`INSERT INTO course_${instituteNumber}(coursePrice,courseName,courseDescription,courseDuration,courseLevel,courseThumbnail) VALUES(?,?,?,?,?,?)`,{
-    replacements : [coursePrice, courseName,courseDescription,courseDuration,courseLevel,courseThumbnail || "https://digitalpathshalanepal.com/image/hello.png"]
+    replacements : [coursePrice, courseName,courseDescription,courseDuration,courseLevel,courseThumbnail ]
 })
 
 console.log(returnedData)
