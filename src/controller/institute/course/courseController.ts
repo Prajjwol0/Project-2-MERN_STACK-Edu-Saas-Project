@@ -13,8 +13,8 @@ if(!coursePrice || !courseName || !courseDescription || !courseDuration || !cour
     })
 }
 console.log(File+"File")
-const courseThumbnail = req.file ? req.file.filename : null
-
+const courseThumbnail = req.file ? req.file.path : null
+console.log(courseThumbnail+"courseThumbnail")
 const returnedData = await sequelize.query(`INSERT INTO course_${instituteNumber}(coursePrice,courseName,courseDescription,courseDuration,courseLevel,courseThumbnail) VALUES(?,?,?,?,?,?)`,{
     replacements : [coursePrice, courseName,courseDescription,courseDuration,courseLevel,courseThumbnail ]
 })
