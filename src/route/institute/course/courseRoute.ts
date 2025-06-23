@@ -9,22 +9,9 @@ import { createCourse, deleteCourse, getAllCourse, getSingleCourse } from "../..
 
 
 import multer from 'multer'
+import upload from "../../../middleware/multerUpload"
 // const upload = multer({storage : storage })
-import {cloudinary,storage} from './../../../services/cloudinaryConfig'
-const upload = multer({storage : storage, 
 
-    fileFilter : (req:Request,file:Express.Multer.File,cb)=>{
-        const allowedFileTypes = ['image/png','image/jpeg','image/jpg']
-        if(allowedFileTypes.includes(file.mimetype)){
-            cb(null,true)
-        }else{
-            cb(new Error("Only image support garxaa hai!!!"))
-        }
-    }, 
-    limits : {
-        fileSize : 4 * 1024 * 1024 // 2 mb
-    }
-})
 const router:Router = express.Router()
 
 //fieldname -- frontend/postman bata chai k name aairaxa file vanne kura 

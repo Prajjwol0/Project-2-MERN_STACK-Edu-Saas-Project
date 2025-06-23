@@ -120,6 +120,8 @@ const createTeacherTable = async (
               teacherExpertise VARCHAR(255), 
               joinedDate DATE, 
               salary VARCHAR(100),
+              teacherPassword VARCHAR(255),
+              teacherPhoto VARCHAR(255),
               createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
               updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
               )`);
@@ -162,6 +164,7 @@ const createCourseTable = async (req: IExtendedRequest, res: Response) => {
         courseLevel ENUM('beginner','intermediate','advance') NOT NULL, 
         courseThumbnail VARCHAR(200),
         courseDescription TEXT, 
+        teacherId VARCHER(36) REFERENCES teacher_${instituteNumber}(id),
         categoryId VARCHAR(36) NOT NULL REFERENCE category_${instituteNumber} (id),
         createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
         updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
