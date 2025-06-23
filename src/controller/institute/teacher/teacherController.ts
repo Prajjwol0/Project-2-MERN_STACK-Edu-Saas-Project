@@ -3,6 +3,7 @@ import { IExtendedRequest } from "../../../middleware/type";
 import sequelize from "../../../database/connection";
 import { QueryTypes } from "sequelize";
 import generateRandomPassword from "../../../services/generateRandomPassword";
+import sendMail from "../../../services/sendMail";
 
 
 const createTeacher = async (req:IExtendedRequest,res:Response)=>{
@@ -30,6 +31,15 @@ const insertedData=await sequelize.query(`INSERT INTO teacher_${instituteNumber}
 
 // Send mail function ::
 
+const mailInformation = {
+  to: teacherEmail,
+  subject: "Welcome to my SaaS MERN project",
+  text: `Thank you for taking look to my app.
+Email: ${teacherEmail}
+Password: ${data.plainVersion}`
+};
+
+await sendMail(mailInformation)
 
 res.send(200).json({
     message:"Teacher created"

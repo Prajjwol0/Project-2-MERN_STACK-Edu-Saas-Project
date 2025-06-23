@@ -1,15 +1,14 @@
+import bcrypt from "bcrypt";
 
-import bcrypt from "bcrypt"
+const randomPasswordGenerator = (teacherName: string) => {
+    const randomNumber = Math.floor(1000 + Math.random() * 90000);
+    const plainVersion = `${randomNumber}_${teacherName}`;
+    const hashedVersion = bcrypt.hashSync(plainVersion, 10);
 
-const randomPasswordGenerator = (teacherName:String)=>{
+    return {
+        plainVersion,
+        hashedVersion
+    };
+};
 
-   const randomNumber= Math.floor(1000+Math.random()*90000)
-
-   const passwordData={
-  
-      hashedVersion:bcrypt.hashSync(`${randomNumber}_${teacherName}`,10)
-   }
-   return passwordData
-
-}
 export default randomPasswordGenerator;
