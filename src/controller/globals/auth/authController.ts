@@ -77,7 +77,7 @@ class AuthController {
     
     // Insert into user table
     await User.create({
-      username:username,
+      userName:username,
       password:bcrypt.hashSync(password,8),
     
       email:email,
