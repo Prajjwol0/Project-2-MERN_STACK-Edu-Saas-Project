@@ -85,17 +85,19 @@ await sequelize.query(
     subject: "Welcome to my SaaS MERN project",
    text: `Dear ${teacherName},
 
-Welcome to our educational platform! We're excited to have you join our team.
+Welcome to our educational platform! We’re thrilled to have you join our team and look forward to your valuable contributions.
+Below are your login credentials:
 
-Here are your login credentials:
+Login Details:
 Email: ${teacherEmail}
-Password: ${data.plainVersion}
+Phone Number: ${teacherPhoneNumber}
+Expertise: ${teacherExpertise}
+Temporary Password: ${data.plainVersion}
+Your institute number: ${instituteNumber}
+For your security, please log in and update your password as soon as possible.
+If you have any questions or need assistance, don’t hesitate to reach out. We're here to help!
 
-Please log in and update your password as soon as possible for security purposes.
-
-If you have any questions or need assistance, feel free to reach out.
-
-Best regards,  
+Best regards,
 The Admin Team`
   });
 

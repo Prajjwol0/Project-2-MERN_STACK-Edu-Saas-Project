@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import User from "../../../database/models/user.model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken"
+import generateJWTToken from "../../../services/generateJwtToken";
 /*
 
 register/sign up
@@ -115,9 +116,7 @@ class AuthController {
     const isPasswordMatch=bcrypt.compareSync(password,data[0].password)
   if(isPasswordMatch){
     // login vayo, token generation
-const token=jwt.sign({id:data[0].id},"thisissecret",{
-  expiresIn:"30d"
-}) //jwt.sign({name:"prjjwol"},"thisIsSecret") 
+const token = generateJWTToken({id:data[0].id})
 
 res.json({
   token:token,
